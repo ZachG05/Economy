@@ -61,7 +61,10 @@ public class EconomyData extends WorldSavedData {
         NBTTagList list = new NBTTagList();
         for (Map.Entry<UUID, Double> entry : balances.entrySet()) {
             NBTTagCompound compound = new NBTTagCompound();
-            compound.setString("uuid", entry.getKey().toString());
+            compound.setString(
+                "uuid",
+                entry.getKey()
+                    .toString());
             compound.setDouble("balance", entry.getValue());
             list.appendTag(compound);
         }
