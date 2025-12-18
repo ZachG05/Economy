@@ -14,11 +14,32 @@ A server-side only economy system for Minecraft 1.7.10 with Forge. This mod prov
 
 ### Adding Economy as a Dependency
 
-Add this to your `build.gradle` dependencies section:
+#### Via JitPack
+
+Add JitPack repository to your `repositories.gradle`:
+
+```gradle
+repositories {
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io"
+    }
+}
+```
+
+Then add Economy to your `dependencies.gradle`:
 
 ```gradle
 dependencies {
     implementation 'com.github.ZachG05:Economy:1.0.0'
+}
+```
+
+Or if using the GTNH convention plugin, add to `dependencies.gradle`:
+
+```gradle
+dependencies {
+    runtimeOnlyNonPublishable("com.github.ZachG05:Economy:1.0.0")
 }
 ```
 
@@ -87,11 +108,22 @@ All economy operations are thread-safe when called from the server thread. The e
 
 ## Building
 
+This project uses the GTNH Gradle build system. See [BUILD.md](BUILD.md) for detailed build instructions.
+
+Quick start:
 ```bash
+./gradlew setupCIWorkspace
 ./gradlew build
 ```
 
 The compiled mod JAR will be in `build/libs/`.
+
+## GitHub Actions & JitPack
+
+This mod is configured to:
+- Build automatically on GitHub Actions for every commit
+- Publish releases to JitPack for easy dependency management
+- Support tagged releases for versioning
 
 ## License
 
