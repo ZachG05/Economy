@@ -1,0 +1,12 @@
+jdk:
+  - openjdk8
+
+before_install:
+  - cp build-forge.gradle build.gradle
+  - chmod +x gradlew
+
+install:
+  - ./gradlew clean setupDecompWorkspace --refresh-dependencies
+
+after_success:
+  - ./gradlew build publishToMavenLocal

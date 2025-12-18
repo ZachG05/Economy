@@ -1,0 +1,106 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    name: Create Release and Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: 'gradle'
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Use ForgeGradle build file
+      run: cp build-forge.gradle build.gradle
+      
+    - name: Setup Forge workspace
+      run: |
+        echo "Setting up ForgeGradle workspace..."
+        ./gradlew setupDecompWorkspace --no-daemon --info
+      
+    - name: Build mod
+      run: |
+        echo "Building Economy mod..."
+        ./gradlew build --no-daemon
+      
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          build/libs/economy-*.jar
+        body: |
+          ## Economy Mod v${{ steps.get_version.outputs.VERSION }}
+          
+          Server-side economy system for Minecraft 1.7.10 with Forge.
+          
+          ### Installation
+          1. Download `economy-${{ steps.get_version.outputs.VERSION }}.jar`
+          2. Place in your Minecraft 1.7.10 Forge server's `mods/` folder
+          3. Start the server
+          
+          ### For Mod Developers
+          
+          Add this mod as a dependency via JitPack:
+          
+          **Gradle:**
+          ```gradle
+          repositories {
+              maven { url 'https://jitpack.io' }
+          }
+          
+          dependencies {
+              implementation 'com.github.ZachG05:Economy:v${{ steps.get_version.outputs.VERSION }}'
+          }
+          ```
+          
+          **Maven:**
+          ```xml
+          <repository>
+              <id>jitpack.io</id>
+              <url>https://jitpack.io</url>
+          </repository>
+          
+          <dependency>
+              <groupId>com.github.ZachG05</groupId>
+              <artifactId>Economy</artifactId>
+              <version>v${{ steps.get_version.outputs.VERSION }}</version>
+          </dependency>
+          ```
+          
+          See [README.md](https://github.com/ZachG05/Economy/blob/main/README.md) for API usage.
+          
+          ### Changelog
+          - See commit history for changes
+          
+          ---
+          
+          This release will be automatically built and published to JitPack.
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Trigger JitPack build
+      run: |
+        echo "Triggering JitPack build for version v${{ steps.get_version.outputs.VERSION }}"
+        curl -s "https://jitpack.io/com/github/ZachG05/Economy/v${{ steps.get_version.outputs.VERSION }}/build.log" || true
