@@ -1,43 +1,64 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven { url = 'https://maven.minecraftforge.net' }
+        maven {
+            name = "forge"
+            url = "https://maven.minecraftforge.net"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
+            name = "Scala CI dependencies"
+            url = "https://repo1.maven.org/maven2/"
+        }
+        maven {
+            name = "jitpack"
+            url = "https://jitpack.io"
+        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'com.github.GTNewHorizons:ForgeGradle:1.2.5'
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-//apply plugin: 'maven-publish'
-// Remove or comment out the legacy 'maven' plugin
-apply plugin: 'maven'
+apply plugin: 'forge'
 
-version = "1.0.0"
+version = "1.7.10-1.0.2"
 group = "com.zachg.economy"
 archivesBaseName = "economy"
 
-sourceCompatibility = targetCompatibility = '1.8'
+minecraft {
+    version = forgeVersion
+	runDir = "eclipse"
 
-// Further configurations remain the same...
+    replaceIn "src/main/java/com/zachg/economy/EconomyMod.java"
+    replace "GRADLETOKEN_VERSION", project.version.split('-')[1]
+}
+
+repositories {
+	maven {
+		name = "ic2"
+		url = "http://maven.ic2.player.to/"
+	}
+}
+
+dependencies {
+    compile ic2Version
+}
+
 
 processResources {
-    inputs.property "version", project.version
-
+    def cleanVersion = project.version.split('-')[1]
+    
+    inputs.property "version", cleanVersion
+    inputs.property "mcversion", project.minecraft.version
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand 'version': project.version,
-               'modId': 'economy', 
-               'modName': 'Economy', 
-               'minecraftVersion': '1.7.10',
-               'modVersion': project.version
-    }
-
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }        
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-}
 
-// Optional: Switch to 'maven-publish' if you need publishing capabilities
-// Apply this modern plugin before defining any publishing tasks
-// apply plugin: 'maven-publish'
+}
