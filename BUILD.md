@@ -2,38 +2,29 @@
 
 ## Prerequisites
 
-- Java JDK 8
-- Gradle 2.14 or compatible version
-- Access to maven.minecraftforge.net (for ForgeGradle)
+- Java JDK 8 (or Java 17/21 with modern Java syntax enabled)
+- Gradle 9.2.0 (bundled via gradle wrapper)
+- Internet connection for downloading dependencies
 
-## Standard Build Process (With ForgeGradle)
+## Standard Build Process (GTNH Gradle System)
 
-If you have access to Minecraft Forge repositories:
+This project uses the [GTNH Gradle build system](https://github.com/GTNewHorizons/GTNHGradle), which provides a standardized build configuration for Minecraft 1.7.10 Forge mods.
 
-1. **Use the ForgeGradle build file:**
-   ```bash
-   cp build-forge.gradle build.gradle
-   ```
-
-2. **Set up the development workspace:**
+1. **Set up the development workspace:**
    ```bash
    ./gradlew setupDecompWorkspace
    ```
+   or for faster CI builds:
+   ```bash
+   ./gradlew setupCIWorkspace
+   ```
 
-3. **Build the mod:**
+2. **Build the mod:**
    ```bash
    ./gradlew build
    ```
 
-4. The compiled mod JAR will be in `build/libs/economy-1.0.0.jar`
-
-## Alternative Build (Syntax Check Only)
-
-The default `build.gradle` is simplified for CI/CD environments where Forge repositories may not be accessible. It performs syntax checking but won't produce a functional mod JAR.
-
-```bash
-./gradlew build
-```
+3. The compiled mod JAR will be in `build/libs/`
 
 ## Development Setup
 
@@ -69,20 +60,28 @@ src/main/resources/
 └── mcmod.info               # Mod metadata
 ```
 
+## Configuration
+
+The build is configured via `gradle.properties`. Key settings include:
+
+- `modId`: The mod identifier (economy)
+- `modName`: Human-readable mod name (Economy)
+- `modGroup`: Root package (com.zachg.economy)
+- `minecraftVersion`: Target Minecraft version (1.7.10)
+- `forgeVersion`: Target Forge version (10.13.4.1614)
+
 ## Troubleshooting
 
-### Cannot resolve ForgeGradle
+### Cannot resolve GTNH repositories
 
-If you get errors about ForgeGradle not being found, ensure you have internet access to `maven.minecraftforge.net`. Some networks or CI environments may block this.
+Ensure you have internet access to `nexus.gtnewhorizons.com`. Some networks may block this repository.
 
 ### Wrong Java Version
 
-Ensure you're using Java 8 (JDK 1.8):
+The build supports Java 8, 17, and 21. Ensure you have a compatible JDK installed:
 ```bash
 java -version
 ```
-
-Should show version 1.8.x
 
 ### Gradle Daemon Issues
 
@@ -90,6 +89,10 @@ If you encounter daemon issues, try:
 ```bash
 ./gradlew build --no-daemon
 ```
+
+### First Build is Slow
+
+The first build downloads many dependencies and sets up the Minecraft workspace. Subsequent builds will be much faster.
 
 ## Testing the Mod
 
