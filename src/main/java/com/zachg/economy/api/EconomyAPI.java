@@ -19,7 +19,7 @@ public class EconomyAPI {
 
     /**
      * Get the balance of a player.
-     * 
+     *
      * @param playerUUID The UUID of the player
      * @return The player's balance, or 0 if the player has no balance data
      */
@@ -32,9 +32,9 @@ public class EconomyAPI {
 
     /**
      * Add to a player's balance.
-     * 
+     *
      * @param playerUUID The UUID of the player
-     * @param amount The amount to add (must be non-negative)
+     * @param amount     The amount to add (must be non-negative)
      * @return true if successful, false otherwise
      */
     public static boolean addBalance(UUID playerUUID, double amount) {
@@ -46,9 +46,9 @@ public class EconomyAPI {
 
     /**
      * Remove from a player's balance.
-     * 
+     *
      * @param playerUUID The UUID of the player
-     * @param amount The amount to remove (must be non-negative)
+     * @param amount     The amount to remove (must be non-negative)
      * @return true if successful (player had sufficient balance), false otherwise
      */
     public static boolean removeBalance(UUID playerUUID, double amount) {
@@ -60,7 +60,7 @@ public class EconomyAPI {
 
     /**
      * Check if the economy API is initialized and ready to use.
-     * 
+     *
      * @return true if the API is ready, false otherwise
      */
     public static boolean isInitialized() {
