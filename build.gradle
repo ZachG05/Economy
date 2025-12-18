@@ -9,6 +9,7 @@ buildscript {
 }
 
 apply plugin: 'forge'
+apply plugin: 'maven-publish'
 // Remove or comment out the legacy 'maven' plugin
 // apply plugin: 'maven'
 
