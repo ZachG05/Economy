@@ -19,17 +19,17 @@ public class CommonProxy {
 
     public void serverStarting(FMLServerStartingEvent event) {
         if (economyImpl == null) {
-            economyImpl = new EconomyImpl(event.getServer().getEntityWorld());
+            economyImpl = new EconomyImpl(event.getServer().worldServers[0]);
             EconomyAPI.setInstance(economyImpl);
             Economy.LOG.info("Economy API initialized and ready for use");
         } else {
-            economyImpl.setWorld(event.getServer().getEntityWorld());
+            economyImpl.setWorld(event.getServer().worldServers[0]);
         }
     }
 
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
-        if (!event.world.isRemote && economyImpl != null) {
+        if (!event.world.isRemote && event.world.provider.dimensionId == 0 && economyImpl != null) {
             economyImpl.setWorld(event.world);
         }
     }

@@ -1,8 +1,8 @@
 package com.zachg.economy.data;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,7 +16,7 @@ import net.minecraft.world.WorldSavedData;
 public class EconomyData extends WorldSavedData {
 
     private static final String DATA_NAME = "EconomyData";
-    private final Map<UUID, Double> balances = new HashMap<UUID, Double>();
+    private final Map<UUID, Double> balances = new ConcurrentHashMap<UUID, Double>();
 
     public EconomyData() {
         super(DATA_NAME);
