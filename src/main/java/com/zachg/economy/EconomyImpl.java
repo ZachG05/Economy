@@ -2,10 +2,10 @@ package com.zachg.economy;
 
 import java.util.UUID;
 
+import net.minecraft.world.World;
+
 import com.zachg.economy.api.IEconomyAPI;
 import com.zachg.economy.data.EconomyData;
-
-import net.minecraft.world.World;
 
 /**
  * Internal implementation of the economy API.

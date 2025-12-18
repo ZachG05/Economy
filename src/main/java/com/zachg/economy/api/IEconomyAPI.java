@@ -20,7 +20,7 @@ public interface IEconomyAPI {
      * Add to a player's balance.
      *
      * @param playerUUID The UUID of the player
-     * @param amount The amount to add (must be non-negative)
+     * @param amount     The amount to add (must be non-negative)
      * @return true if successful, false otherwise
      */
     boolean addBalance(UUID playerUUID, double amount);
@@ -29,7 +29,7 @@ public interface IEconomyAPI {
      * Remove from a player's balance.
      *
      * @param playerUUID The UUID of the player
-     * @param amount The amount to remove (must be non-negative)
+     * @param amount     The amount to remove (must be non-negative)
      * @return true if successful (player had sufficient balance), false otherwise
      */
     boolean removeBalance(UUID playerUUID, double amount);

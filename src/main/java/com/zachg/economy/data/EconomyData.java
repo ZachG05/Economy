@@ -95,6 +95,10 @@ public class EconomyData extends WorldSavedData {
 
     /**
      * Add to a player's balance.
+     *
+     * @param playerUUID The UUID of the player
+     * @param amount     The amount to add
+     * @return true if successful, false otherwise
      */
     public boolean addBalance(UUID playerUUID, double amount) {
         if (playerUUID == null || amount < 0) {
@@ -107,6 +111,10 @@ public class EconomyData extends WorldSavedData {
 
     /**
      * Remove from a player's balance.
+     *
+     * @param playerUUID The UUID of the player
+     * @param amount     The amount to remove
+     * @return true if sufficient balance, false otherwise
      */
     public boolean removeBalance(UUID playerUUID, double amount) {
         if (playerUUID == null || amount < 0) {
