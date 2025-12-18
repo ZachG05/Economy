@@ -4,6 +4,9 @@
 /.vscode/
 /run/
 /build/
+# Allow specific Minecraft version files in build/libs
+!/build/libs/1.7.10.jar
+!/build/libs/1.7.10.json
 /eclipse/
 .classpath
 .project

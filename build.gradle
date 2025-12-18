@@ -1,74 +1,10 @@
+//version: 1707058017
+
 plugins {
-    id 'java'
+    id 'com.gtnewhorizons.gtnhconvention'
 }
 
-version = "1.0.0"
-group = "com.zachg.economy"
-archivesBaseName = "economy"
-
-sourceCompatibility = targetCompatibility = '1.8'
-
-repositories {
-    mavenCentral()
-}
-
-// Note: This is a simplified build file for CI/CD compilation checks.
-// To build a working Forge mod, you need to:
-// 1. Set up ForgeGradle 1.2 with proper Minecraft 1.7.10 dependencies
-// 2. Run setupDecompWorkspace and then build
-// 
-// For development, follow the standard Forge 1.7.10 setup process.
-
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-        }
-        resources {
-            srcDirs = ['src/main/resources']
-        }
-    }
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version': project.version,
-               'modId': 'economy', 
-               'modName': 'Economy', 
-               'minecraftVersion': '1.7.10',
-               'modVersion': project.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
-
-jar {
-    from(sourceSets.main.output)
-    
-    manifest {
-        attributes([
-            "Specification-Title": "Economy",
-            "Specification-Vendor": "ZachG05",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor": "ZachG05",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
-// Dummy compile task for syntax checking
-task checkSyntax(type: JavaCompile) {
-    source = sourceSets.main.java
-    classpath = files()
-    destinationDir = file("$buildDir/syntax-check")
-    options.compilerArgs = ['-Xlint:all', '-proc:none']
-    // Allow compilation errors for missing Forge/Minecraft classes
-    options.failOnError = false
+// workaround an OOM on GH actions during the checkStyleMain task
+tasks.withType(Checkstyle).configureEach {
+    maxHeapSize = "1g"
 }

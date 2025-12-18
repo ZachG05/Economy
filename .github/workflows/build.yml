@@ -43,9 +43,8 @@ jobs:
         find src/main/java/com/zachg/economy/api -name "*.java" -type f
         
   forge-build:
-    name: Full Forge Build (if accessible)
+    name: Full Forge Build
     runs-on: ubuntu-latest
-    continue-on-error: true
     permissions:
       contents: read
     
@@ -58,6 +57,7 @@ jobs:
       with:
         java-version: '8'
         distribution: 'temurin'
+        cache: 'gradle'
         
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -65,16 +65,42 @@ jobs:
     - name: Use ForgeGradle build file
       run: cp build-forge.gradle build.gradle
       
-    - name: Setup workspace
-      run: ./gradlew setupDecompWorkspace --no-daemon || echo "ForgeGradle setup failed (expected if maven.minecraftforge.net is unreachable)"
+    - name: Setup Forge workspace
+      run: |
+        echo "Setting up ForgeGradle workspace (this may take 5-15 minutes on first run)..."
+        ./gradlew setupDecompWorkspace --no-daemon --info || {
+          echo "::error::ForgeGradle setup failed. Check that maven.minecraftforge.net is accessible."
+          exit 1
+        }
       
-    - name: Build with ForgeGradle
-      run: ./gradlew build --no-daemon || echo "Full build failed (expected if ForgeGradle setup failed)"
+    - name: Build mod with ForgeGradle
+      run: |
+        echo "Building Economy mod..."
+        ./gradlew build --no-daemon || {
+          echo "::error::Build failed"
+          exit 1
+        }
       
-    - name: Upload build artifacts
+    - name: List build artifacts
+      run: |
+        echo "Build completed successfully!"
+        echo "Generated files:"
+        ls -lh build/libs/
+      
+    - name: Upload mod JAR
       uses: actions/upload-artifact@v4
       if: success()
       with:
-        name: economy-mod
-        path: build/libs/*.jar
+        name: economy-mod-jar
+        path: build/libs/economy-*.jar
+        if-no-files-found: error
+        retention-days: 90
+        
+    - name: Upload all build artifacts
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: economy-mod-all-artifacts
+        path: build/libs/
+        retention-days: 30
 

@@ -1,5 +1,8 @@
 # Economy
 
+[![JitPack](https://jitpack.io/v/ZachG05/Economy.svg)](https://jitpack.io/#ZachG05/Economy)
+[![Build](https://github.com/ZachG05/Economy/actions/workflows/build.yml/badge.svg)](https://github.com/ZachG05/Economy/actions/workflows/build.yml)
+
 A server-side only economy system for Minecraft 1.7.10 with Forge. This mod provides a self-contained balance API that other mods (like auction houses) can easily integrate with.
 
 ## Features
@@ -14,15 +17,21 @@ A server-side only economy system for Minecraft 1.7.10 with Forge. This mod prov
 
 ### Adding Economy as a Dependency
 
-Add this to your `build.gradle` dependencies section:
+**Via JitPack (Recommended):**
+
+Add JitPack repository and the dependency to your `build.gradle`:
 
 ```gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
-    implementation 'com.github.ZachG05:Economy:1.0.0'
+    implementation 'com.github.ZachG05:Economy:v1.0.0'
 }
 ```
 
-Or add it as a soft dependency in your `@Mod` annotation:
+**Or** add it as a soft dependency in your `@Mod` annotation:
 
 ```java
 @Mod(
@@ -87,11 +96,34 @@ All economy operations are thread-safe when called from the server thread. The e
 
 ## Building
 
+See [REQUIREMENTS.md](REQUIREMENTS.md) for detailed build instructions.
+
+**Quick build:**
 ```bash
+cp build-forge.gradle build.gradle
+./gradlew setupDecompWorkspace
 ./gradlew build
 ```
 
 The compiled mod JAR will be in `build/libs/`.
+
+## Releases and Distribution
+
+This mod is automatically published to JitPack when a new release is created:
+
+1. **GitHub Releases:** Download pre-built JARs from [Releases](https://github.com/ZachG05/Economy/releases)
+2. **JitPack:** Use as a Maven/Gradle dependency via [JitPack.io](https://jitpack.io/#ZachG05/Economy)
+3. **GitHub Actions:** Every push triggers an automated build
+
+See [JITPACK.md](JITPACK.md) for details on the automatic publishing process.
+
+## Documentation
+
+- **[REQUIREMENTS.md](REQUIREMENTS.md)** - Build requirements and setup guide
+- **[BUILD.md](BUILD.md)** - Detailed build instructions
+- **[INTEGRATION.md](INTEGRATION.md)** - Complete API integration guide with examples
+- **[JITPACK.md](JITPACK.md)** - JitPack publishing and dependency usage guide
+- **[SUMMARY.md](SUMMARY.md)** - Implementation summary
 
 ## License
 
