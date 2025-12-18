@@ -6,7 +6,7 @@ before_install:
   - chmod +x gradlew
 
 install:
-  - ./gradlew clean setupDecompWorkspace --refresh-dependencies
+  - ./gradlew clean setupDecompWorkspace --refresh-dependencies --no-daemon
 
 after_success:
-  - ./gradlew build publishToMavenLocal
+  - ./gradlew build publishToMavenLocal --no-daemon

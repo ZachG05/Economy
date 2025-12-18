@@ -90,11 +90,14 @@ publishing {
                 }
                 
                 scm {
-                    connection = 'scm:git:git://github.com/ZachG05/Economy.git'
-                    developerConnection = 'scm:git:ssh://github.com/ZachG05/Economy.git'
+                    connection = 'scm:git:https://github.com/ZachG05/Economy.git'
+                    developerConnection = 'scm:git:git@github.com:ZachG05/Economy.git'
                     url = 'https://github.com/ZachG05/Economy'
                 }
             }
         }
+    }
+    repositories {
+        mavenLocal()
     }
 }
