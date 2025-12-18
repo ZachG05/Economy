@@ -30,7 +30,9 @@ jobs:
       run: ./gradlew checkSyntax --no-daemon || true
       
     - name: Build (basic compilation check)
-      run: ./gradlew jar --no-daemon || echo "Note: Full build requires ForgeGradle setup"
+      run: |
+        ./gradlew jar --no-daemon || echo "Note: Full build requires ForgeGradle setup"
+
       
     - name: List source files
       run: |
