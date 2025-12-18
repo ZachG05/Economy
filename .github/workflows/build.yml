@@ -11,3 +11,20 @@ jobs:
     uses: GTNewHorizons/GTNH-Actions-Workflows/.github/workflows/build-and-test.yml@master
     secrets: inherit
 
+  spotless-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Install Dependencies
+        run: ./gradlew dependencies --no-daemon
+
+      - name: Spotless Check
+        run: ./gradlew spotlessJavaCheck --no-daemon
