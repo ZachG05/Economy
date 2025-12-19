@@ -13,7 +13,8 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
     version = Tags.VERSION,
     name = "Economy",
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:Forge@[10.13.4.1614,)")
+    dependencies = "required-after:Forge@[10.13.4.1614,)",
+    acceptableRemoteVersions = "*")
 public class Economy {
 
     public static final String MODID = "economy";
